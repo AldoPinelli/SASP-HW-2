@@ -1,4 +1,4 @@
-clear; close all; clc
+eeclear; close all; clc
 
 %% Simscape Controlling Script
 % Open the Simscape model 'mems_spk_SSC.slx' and run the following commands

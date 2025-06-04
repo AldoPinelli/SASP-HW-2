@@ -75,12 +75,61 @@ L3 = Ltube2*gamma2^2;
 Fin = alpha * vin;
 
 %% Setting of Free Parameters (Adaptation Conditions)
+Z2 = R2;
+Z5 = Ts/2*C1; 
+Z8 = R2;
+Z9 = 2*L1/Ts;
+Z10 = Ts/2*C2;
+Z13 = Ts/2*C3;
+Z16 = 2*L2/Ts;
+Z20 = Ts/2*C4;
+Z22 = 2*L3/Ts;
+Z23 = R3;
+
+Z21 = Z22 + Z23;
+Z19 = Z21;
+Z18 = (Z19*Z20)/(Z19+Z20);
+Z17 = Z18;
+Z15 = (Z17+Z16);
+Z14 = Z15;
+Z12 = (Z14*Z13)/(Z14*Z13);
+Z11 = Z12;
+Z7 = Z11 + Z8 + Z9 + Z10;
+Z6 = Z7;
+Z4 = (Z6*Z5)/(Z7*Z6);
+Z3 = Z4;
+Z1 = Z3 + Z2;
+
+
 
 
 %% Computing Scattering Matrices
+Bser = [1,1,1];
+Qpar = [1,1,1];
+Bser5 = [1,1,1,1,1];
+
+Zser1= diag([Z1,Z3,Z2]);
+Zpar1= diag([Z4,Z5,Z6]);
+Zser2= diag([Z7,Z8,Z9,Z10,Z11]);
+Zpar2=diag([Z12,Z13,Z14]);
+Zser3= diag([Z15,Z16,Z17]);
+Zpar3=diag([Z18,Z19,Z20]);
+Zser4=diag([Z21,Z22,Z23]);
+
+Sser1= eye(3) - 2*Zser1*Bser'*inv(Bser*Zser1*Bser')*Bser;
+Sser2= eye(5) - 2*Zser2*Bser5'*inv(Bser5*Zser2*Bser5')*Bser5;
+Sser3= eye(3) - 2*Zser3*Bser'*inv(Bser*Zser3*Bser')*Bser;
+Sser4= eye(3) - 2*Zser4*Bser'*inv(Bser*Zser4*Bser')*Bser;
+
+Spar1= 2*Qpar'*inv(Qpar*inv(Zpar1)*Qpar')*Qpar*inv(Zpar1) - eye(3);
+Spar2= 2*Qpar'*inv(Qpar*inv(Zpar2)*Qpar')*Qpar*inv(Zpar2) - eye(3);
+Spar3= 2*Qpar'*inv(Qpar*inv(Zpar3)*Qpar')*Qpar*inv(Zpar3) - eye(3);
+
+disp(Sser1);
 
 
-%% Initialization of Waves
+%% Initialization of Wavesa
+a2=0;a8=0;a23=0;
 
 
 %% Initialization of Output Signals
@@ -91,7 +140,22 @@ Fout = zeros(1, length(t));
 
 for n = 1 : length(Fin)
 
+    a1 = Fin(n);
+
+    %Manage Dynamic ELements
+    a5 = b5;
+    a10 = b10;
+    a13 = b13;
+    a20 = b20;
+
+    a9 = -b9;
+    a16 = -b16;
+    a22 = -b22;
+
     % Forward Scan
+    b21 = Sser4(1,:) * [0; a22, a23];  
+    
+   
     
     % Local Root Scattering
 
