@@ -92,11 +92,11 @@ Z18 = (Z19*Z20)/(Z19+Z20);
 Z17 = Z18;
 Z15 = (Z17+Z16);
 Z14 = Z15;
-Z12 = (Z14*Z13)/(Z14*Z13);
+Z12 = (Z14*Z13)/(Z14+Z13);
 Z11 = Z12;
 Z7 = Z11 + Z8 + Z9 + Z10;
 Z6 = Z7;
-Z4 = (Z6*Z5)/(Z7*Z6);
+Z4 = (Z6*Z5)/(Z7+Z6);
 Z3 = Z4;
 Z1 = Z3 + Z2;
 
@@ -130,6 +130,7 @@ disp(Sser1);
 
 %% Initialization of Wavesa
 a2=0;a8=0;a23=0;
+b5=0;b9=0;b10=0;b13=0;b16=0;b20=0;b22=0;
 
 
 %% Initialization of Output Signals
@@ -153,15 +154,60 @@ for n = 1 : length(Fin)
     a22 = -b22;
 
     % Forward Scan
-    b21 = Sser4(1,:) * [0; a22, a23];  
-    
-   
+    b21 = Sser4(1,:) * [0; a22; a23];
+    a19 = b21;
+
+    b18 = Spar3(1,:) * [0;a19; a20];
+    a17 = b18;
+
+    b15 = Sser3(1,:) * [0; a16; a17];
+    a14 = b15;
+
+    b12 = Spar2(1,:) * [0; a13; a14];
+    a11 = b12;
+
+    b7 = Sser2(1,:) * [0; a8; a9; a10; a11];
+    a6 = b7;
+
+    b4 = Spar1(1,:) * [0; a5; a6];
+    a3= b4;
+
     
     % Local Root Scattering
+    b1 = 2*Fin(n) - a1;
 
     % Backward Scan
+    b3 = Sser1(3,:)*[a1; a2; a3];
+    b2 = Sser1(2,:) * [a1; a2; a3];
+    a4=b3;
+
+    b5 = Spar1(2,:) * [a4; a5; a6];
+    b6 = Spar1(3,:) * [a4; a5; a6];
+    a7 = b6;
+
+    b8 = Sser2(2,:) * [a7; a8; a9; a10; a11];
+    b9 = Sser2(3,:) * [a7; a8; a9; a10; a11];
+    b10 = Sser2(4,:) * [a7; a8; a9; a10; a11];
+    b11 = Sser2(5,:) * [a7; a8; a9; a10; a11];
+    a12 = b11;
+
+    b13 = Spar2(2,:) * [a12; a13; a14];
+    b14 = Spar2(3,:) * [a12; a13; a14];
+    a15 = b14;
+
+    b16 = Sser3(2,:) * [a15; a16; a17];
+    b17 = Sser3(3,:) * [a15; a16; a17];
+    a18 = b17;
+
+    b19 = Spar3(2,:) * [a18; a19; a20];
+    b20 = Spar3(3,:) * [a18; a19; a20];
+    a21 = b19;
+
+    b22 = Sser4(2,:) * [a21; a22; a23];
+    b23 = Sser4(3,:) * [a21; a22; a23];
 
     % Read Output
+    Fout(n) = (a23 + b23)/2;
 
 end
 
