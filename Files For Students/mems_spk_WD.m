@@ -76,14 +76,14 @@ Fin = alpha * vin;
 
 %% Setting of Free Parameters (Adaptation Conditions)
 Z2 = R2;
-Z5 = Ts/2*C1; 
+Z5 = Ts/(2*C1); 
 Z8 = R2;
-Z9 = 2*L1/Ts;
-Z10 = Ts/2*C2;
-Z13 = Ts/2*C3;
-Z16 = 2*L2/Ts;
-Z20 = Ts/2*C4;
-Z22 = 2*L3/Ts;
+Z9 = (2*L1)/Ts;
+Z10 = Ts/(2*C2);
+Z13 = Ts/(2*C3);
+Z16 = (2*L2)/Ts;
+Z20 = Ts/(2*C4);
+Z22 = (2*L3)/Ts;
 Z23 = R3;
 
 Z21 = Z22 + Z23;
@@ -96,7 +96,7 @@ Z12 = (Z14*Z13)/(Z14+Z13);
 Z11 = Z12;
 Z7 = Z11 + Z8 + Z9 + Z10;
 Z6 = Z7;
-Z4 = (Z6*Z5)/(Z7+Z6);
+Z4 = (Z6*Z5)/(Z5+Z6);
 Z3 = Z4;
 Z1 = Z3 + Z2;
 
@@ -108,7 +108,7 @@ Bser = [1,1,1];
 Qpar = [1,1,1];
 Bser5 = [1,1,1,1,1];
 
-Zser1= diag([Z1,Z3,Z2]);
+Zser1= diag([Z1,Z2,Z3]);
 Zpar1= diag([Z4,Z5,Z6]);
 Zser2= diag([Z7,Z8,Z9,Z10,Z11]);
 Zpar2=diag([Z12,Z13,Z14]);
@@ -141,7 +141,7 @@ Fout = zeros(1, length(t));
 
 for n = 1 : length(Fin)
 
-    a1 = Fin(n);
+    %a1 = Fin(n);
 
     %Manage Dynamic ELements
     a5 = b5;
@@ -172,39 +172,57 @@ for n = 1 : length(Fin)
     b4 = Spar1(1,:) * [0; a5; a6];
     a3= b4;
 
+    b1 = Sser1(1,:) * [0; a2; a3];
+
     
     % Local Root Scattering
-    b1 = 2*Fin(n) - a1;
+
+    a1 = 2*Fin(n) - b1;
+
 
     % Backward Scan
     b3 = Sser1(3,:)*[a1; a2; a3];
     b2 = Sser1(2,:) * [a1; a2; a3];
     a4=b3;
+    a2=b2;
 
     b5 = Spar1(2,:) * [a4; a5; a6];
     b6 = Spar1(3,:) * [a4; a5; a6];
     a7 = b6;
+    a5 = b5;
 
     b8 = Sser2(2,:) * [a7; a8; a9; a10; a11];
     b9 = Sser2(3,:) * [a7; a8; a9; a10; a11];
     b10 = Sser2(4,:) * [a7; a8; a9; a10; a11];
     b11 = Sser2(5,:) * [a7; a8; a9; a10; a11];
     a12 = b11;
+    a8=b8;
+    a9 = b9;
+    a10 = b10;
+    a11=b11;
+
 
     b13 = Spar2(2,:) * [a12; a13; a14];
     b14 = Spar2(3,:) * [a12; a13; a14];
     a15 = b14;
+    a13 = b13;
 
     b16 = Sser3(2,:) * [a15; a16; a17];
     b17 = Sser3(3,:) * [a15; a16; a17];
     a18 = b17;
+    a16 = b16;
 
     b19 = Spar3(2,:) * [a18; a19; a20];
     b20 = Spar3(3,:) * [a18; a19; a20];
     a21 = b19;
+    a20 = b20;
 
     b22 = Sser4(2,:) * [a21; a22; a23];
     b23 = Sser4(3,:) * [a21; a22; a23];
+    a23 = b23;
+    a22 = b22;
+
+    
 
     % Read Output
     Fout(n) = (a23 + b23)/2;
@@ -270,3 +288,5 @@ title('Error Signal','Fontsize',16,'interpreter','latex');
 mse = mean((pout - gt(2, 1:end-1)).^2);
 disp('MSE = ')
 disp(mse)
+
+%disp(Fout);
