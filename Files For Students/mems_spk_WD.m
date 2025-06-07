@@ -129,8 +129,8 @@ disp(Sser1);
 
 
 %% Initialization of Wavesa
-a2=0;a8=0;a23=0;
-b5=0;b9=0;b10=0;b13=0;b16=0;b20=0;b22=0;
+a2=0;a8=0;a23=0; %Resistances
+b5=0;b9=0;b10=0;b13=0;b16=0;b20=0;b22=0; % Inductor & Condeser
 
 
 %% Initialization of Output Signals
@@ -141,8 +141,6 @@ Fout = zeros(1, length(t));
 
 for n = 1 : length(Fin)
 
-    %a1 = Fin(n);
-
     %Manage Dynamic ELements
     a5 = b5;
     a10 = b10;
@@ -152,6 +150,10 @@ for n = 1 : length(Fin)
     a9 = -b9;
     a16 = -b16;
     a22 = -b22;
+
+    %a2 = 0; % Reset R2 incident wave
+    %a8 = 0;
+    %a23 = 0;    % Reset R3 incident wave
 
     % Forward Scan
     b21 = Sser4(1,:) * [0; a22; a23];
@@ -184,43 +186,49 @@ for n = 1 : length(Fin)
     b3 = Sser1(3,:)*[a1; a2; a3];
     b2 = Sser1(2,:) * [a1; a2; a3];
     a4=b3;
-    a2=b2;
+    
 
     b5 = Spar1(2,:) * [a4; a5; a6];
     b6 = Spar1(3,:) * [a4; a5; a6];
     a7 = b6;
-    a5 = b5;
+    
 
     b8 = Sser2(2,:) * [a7; a8; a9; a10; a11];
     b9 = Sser2(3,:) * [a7; a8; a9; a10; a11];
     b10 = Sser2(4,:) * [a7; a8; a9; a10; a11];
     b11 = Sser2(5,:) * [a7; a8; a9; a10; a11];
     a12 = b11;
-    a8=b8;
-    a9 = b9;
-    a10 = b10;
-    a11=b11;
+    
 
 
     b13 = Spar2(2,:) * [a12; a13; a14];
     b14 = Spar2(3,:) * [a12; a13; a14];
     a15 = b14;
-    a13 = b13;
+    
 
     b16 = Sser3(2,:) * [a15; a16; a17];
     b17 = Sser3(3,:) * [a15; a16; a17];
     a18 = b17;
-    a16 = b16;
+    
 
     b19 = Spar3(2,:) * [a18; a19; a20];
     b20 = Spar3(3,:) * [a18; a19; a20];
     a21 = b19;
-    a20 = b20;
+    
 
     b22 = Sser4(2,:) * [a21; a22; a23];
     b23 = Sser4(3,:) * [a21; a22; a23];
-    a23 = b23;
-    a22 = b22;
+    
+    
+
+    % a5 = b5;
+    % a10 = b10;
+    % a13 = b13;
+    % a20 = b20;
+    % 
+    % a9 = -b9;
+    % a16 = -b16;
+    % a22 = -b22;
 
     
 

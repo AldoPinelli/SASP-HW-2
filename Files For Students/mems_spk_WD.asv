@@ -129,8 +129,8 @@ disp(Sser1);
 
 
 %% Initialization of Wavesa
-a2=0;a8=0;a23=0;
-b5=0;b9=0;b10=0;b13=0;b16=0;b20=0;b22=0;
+a2=0;a8=0;a23=0; %Resistances
+b5=0;b9=0;b10=0;b13=0;b16=0;b20=0;b22=0; % Inductor & Condeser
 
 
 %% Initialization of Output Signals
@@ -140,8 +140,6 @@ Fout = zeros(1, length(t));
 %% Simulation Algorithm
 
 for n = 1 : length(Fin)
-
-    %a1 = Fin(n);
 
     %Manage Dynamic ELements
     a5 = b5;
@@ -205,19 +203,23 @@ for n = 1 : length(Fin)
     b13 = Spar2(2,:) * [a12; a13; a14];
     b14 = Spar2(3,:) * [a12; a13; a14];
     a15 = b14;
-    a
+    a13 = b13;
 
     b16 = Sser3(2,:) * [a15; a16; a17];
     b17 = Sser3(3,:) * [a15; a16; a17];
     a18 = b17;
+    a16 = b16;
 
     b19 = Spar3(2,:) * [a18; a19; a20];
     b20 = Spar3(3,:) * [a18; a19; a20];
     a21 = b19;
+    a20 = b20;
 
     b22 = Sser4(2,:) * [a21; a22; a23];
     b23 = Sser4(3,:) * [a21; a22; a23];
     a23 = b23;
+    a22 = b22;
+
     
 
     % Read Output
