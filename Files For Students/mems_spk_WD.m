@@ -75,19 +75,19 @@ L3 = Ltube2*gamma2^2;
 Fin = alpha * vin;
 
 %% Setting of Free Parameters (Adaptation Conditions)
-Z2 = R2;
+Z2 = R1;
 Z5 = Ts/(2*C1); 
 Z8 = R2;
 Z9 = (2*L1)/Ts;
 Z10 = Ts/(2*C2);
 Z13 = Ts/(2*C3);
 Z16 = (2*L2)/Ts;
-Z20 = Ts/(2*C4);
+Z19 = Ts/(2*C4);
 Z22 = (2*L3)/Ts;
 Z23 = R3;
 
 Z21 = Z22 + Z23;
-Z19 = Z21;
+Z20 = Z21;
 Z18 = (Z19*Z20)/(Z19+Z20);
 Z17 = Z18;
 Z15 = (Z17+Z16);
@@ -130,7 +130,7 @@ disp(Sser1);
 
 %% Initialization of Wavesa
 a2=0;a8=0;a23=0; %Resistances
-b5=0;b9=0;b10=0;b13=0;b16=0;b20=0;b22=0; % Inductor & Condeser
+b5=0;b9=0;b10=0;b13=0;b16=0;b19=0;b22=0; % Inductor & Condeser
 
 
 %% Initialization of Output Signals
@@ -145,19 +145,16 @@ for n = 1 : length(Fin)
     a5 = b5;
     a10 = b10;
     a13 = b13;
-    a20 = b20;
+    a19 = b19;
 
     a9 = -b9;
     a16 = -b16;
     a22 = -b22;
-
-    %a2 = 0; % Reset R2 incident wave
-    %a8 = 0;
-    %a23 = 0;    % Reset R3 incident wave
+    a23=0;
 
     % Forward Scan
     b21 = Sser4(1,:) * [0; a22; a23];
-    a19 = b21;
+    a20 = b21;
 
     b18 = Spar3(1,:) * [0;a19; a20];
     a17 = b18;
@@ -176,11 +173,9 @@ for n = 1 : length(Fin)
 
     b1 = Sser1(1,:) * [0; a2; a3];
 
-    
     % Local Root Scattering
 
     a1 = 2*Fin(n) - b1;
-
 
     % Backward Scan
     b3 = Sser1(3,:)*[a1; a2; a3];
@@ -211,25 +206,14 @@ for n = 1 : length(Fin)
     a18 = b17;
     
 
-    b19 = Spar3(2,:) * [a18; a19; a20];
     b20 = Spar3(3,:) * [a18; a19; a20];
-    a21 = b19;
+    b19 = Spar3(2,:) * [a18; a19; a20];
+    a21 = b20;
     
 
     b22 = Sser4(2,:) * [a21; a22; a23];
     b23 = Sser4(3,:) * [a21; a22; a23];
     
-    
-
-    % a5 = b5;
-    % a10 = b10;
-    % a13 = b13;
-    % a20 = b20;
-    % 
-    % a9 = -b9;
-    % a16 = -b16;
-    % a22 = -b22;
-
     
 
     % Read Output
@@ -296,5 +280,3 @@ title('Error Signal','Fontsize',16,'interpreter','latex');
 mse = mean((pout - gt(2, 1:end-1)).^2);
 disp('MSE = ')
 disp(mse)
-
-%disp(Fout);
